@@ -22,8 +22,6 @@ const ProductList = () => {
       }
       const responseData = await response.json().then((data) => data.products);
 
-      console.log(responseData);
-
       setProducts(responseData);
       setIsLoading(false);
     };
@@ -53,15 +51,14 @@ const ProductList = () => {
   return (
     <div>
       {products.map((product) => (
-        <div key={product.id}>
-          <SingleProduct
-            id={product.id}
-            title={product.title}
-            description={product.description}
-            price={product.price}
-            images={product.images}
-          />
-        </div>
+        <SingleProduct
+          key={product.id}
+          id={product.id}
+          title={product.title}
+          description={product.description}
+          price={product.price}
+          images={product.images}
+        />
       ))}
     </div>
   );

@@ -9,12 +9,14 @@ type Props = {
 };
 
 const SingleProduct = ({ title, price, images }: Props) => {
+  const priceTag = `${price} €`;
+
   return (
     <div>
-      {title}
-      {price}
+      <div>{title}</div>
+      <div>{priceTag}</div>
       <img src={images[0]} alt={title} />
-      <Button text="Add to cart" />
+      <Button text="+ Add" onClick={() => console.log("clicked")} />
     </div>
   );
 };

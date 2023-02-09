@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import { CartIcon } from "../UI";
 
-const HeaderCartButton = () => {
+type Props = {
+  onClick: () => void;
+};
+
+const HeaderCartButton = ({ onClick }: Props) => {
   return (
-    <CartButton>
+    <CartButton onClick={onClick}>
       <CartIcon />
       <Badge>3</Badge>
     </CartButton>

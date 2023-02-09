@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import HeaderCartButton from "./HeaderCartButton";
 
-const Header = () => {
+type Props = {
+  onShowCart: () => void;
+};
+
+const Header = ({ onShowCart }: Props) => {
   return (
     <HeaderContainer>
       <div>Outlet store</div>
-      <HeaderCartButton />
+      <HeaderCartButton onClick={() => onShowCart()} />
     </HeaderContainer>
   );
 };
