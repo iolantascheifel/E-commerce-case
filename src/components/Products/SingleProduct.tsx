@@ -1,23 +1,39 @@
-import Button from "../UI/Button";
+import { useContext } from "react";
+import CartContext from "../../store/cart-context";
+import SingleProductAmountInput from "./SingleProductAmountInput";
 
 type Props = {
+  key: number;
   id: number;
-  title: string;
-  description: string;
   price: number;
+  title: string;
   images: string[];
 };
 
-const SingleProduct = ({ title, price, images }: Props) => {
+const SingleProduct = ({ id, price, title, images }: Props) => {
+  const cartCtx = useContext(CartContext);
   const priceTag = `${price} €`;
 
+  const addToCartHandler = (amount: number) => {
+    cartCtx.addItem({
+      id: id,
+      title: title,
+      amount: amount,
+      price: price,
+    });
+  };
+
   return (
-    <div>
-      <div>{title}</div>
-      <div>{priceTag}</div>
+    <li>
+      <div>
+        <h3>{title}</h3>
+      </div>
       <img src={images[0]} alt={title} />
-      <Button text="+ Add" onClick={() => console.log("clicked")} />
-    </div>
+      <div>{priceTag}</div>
+      <div>
+        <SingleProductAmountInput id={id} onAddToCart={addToCartHandler} />
+      </div>
+    </li>
   );
 };
 

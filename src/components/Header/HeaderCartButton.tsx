@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import CartContext from "../../store/cart-context";
 import { CartIcon } from "../UI";
 
 type Props = {
@@ -6,10 +8,17 @@ type Props = {
 };
 
 const HeaderCartButton = ({ onClick }: Props) => {
+  const cartCtx = useContext(CartContext);
+
+  const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
+    // @ts-ignore
+    return curNumber + item.amount;
+  }, 0);
+
   return (
     <CartButton onClick={onClick}>
       <CartIcon />
-      <Badge>3</Badge>
+      <Badge>{numberOfCartItems}</Badge>
     </CartButton>
   );
 };

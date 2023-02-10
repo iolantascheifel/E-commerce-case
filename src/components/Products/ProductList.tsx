@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
+import { Product } from "../../Types";
 import SingleProduct from "./SingleProduct";
 
-type Product = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  images: string[];
-};
-
 const ProductList = () => {
-  const [products, setProducts] = useState<Array<Product>>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState();
 
   useEffect(() => {
-    const fetchMeals = async () => {
+    const fetchItems = async () => {
       const response = await fetch("https://dummyjson.com/products");
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -26,7 +19,7 @@ const ProductList = () => {
       setIsLoading(false);
     };
 
-    fetchMeals().catch((error) => {
+    fetchItems().catch((error) => {
       setIsLoading(false);
       setIsError(error.message);
     });
@@ -48,20 +41,19 @@ const ProductList = () => {
     );
   }
 
-  return (
-    <div>
-      {products.map((product) => (
-        <SingleProduct
-          key={product.id}
-          id={product.id}
-          title={product.title}
-          description={product.description}
-          price={product.price}
-          images={product.images}
-        />
-      ))}
-    </div>
-  );
+  const availableItems = products.map((product) => (
+    <SingleProduct
+      key={product.id}
+      id={product.id}
+      title={product.title}
+      price={product.price}
+      //@ts-ignore
+      images={product.images}
+      product={product}
+    />
+  ));
+
+  return <div>{availableItems}</div>;
 };
 
 export default ProductList;
