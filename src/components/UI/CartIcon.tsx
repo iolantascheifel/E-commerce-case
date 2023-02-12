@@ -1,7 +1,7 @@
 export const CartIcon = () => (
   <svg
-    width="50px"
-    height="50px"
+    width="60px"
+    height="60px"
     viewBox="0 0 1024 1024"
     fill="#000000"
     className="icon"

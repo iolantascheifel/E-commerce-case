@@ -11,8 +11,7 @@ const HeaderCartButton = ({ onClick }: Props) => {
   const cartCtx = useContext(CartContext);
 
   const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
-    // @ts-ignore
-    return curNumber + item.amount;
+    return curNumber + Number(item.amount);
   }, 0);
 
   return (
@@ -35,12 +34,12 @@ const CartButton = styled.button`
 
 const Badge = styled.span`
   background-color: #ee9b0c;
-  opacity: 80%;
-  padding: 5px 10px;
+  opacity: 90%;
+  padding: 3px 7px;
   border-radius: 25px;
   margin-left: 1rem;
   font-weight: bold;
   position: absolute;
-  bottom: 10px;
-  right: 0;
+  bottom: 43px;
+  right: 30px;
 `;

@@ -1,13 +1,11 @@
 import CartContext from "./cart-context";
 import { ReactNode, useReducer } from "react";
-import { Product } from "../Types";
+import { Product } from "../components/Types";
 
 const defaultCartState = {
   items: [],
   totalAmount: 0,
 };
-
-//TODO: type for state and action
 
 const cartReducer = (state: any, action: any) => {
   if (action.type === "ADD") {
@@ -38,7 +36,7 @@ const cartReducer = (state: any, action: any) => {
       totalAmount: updatedTotalAmount,
     };
   }
-  if (action.type === "REMOVE") {
+  if (action.type === "DECREASE") {
     const existingCartItemIndex = state.items.findIndex(
       (item: Product) => item.id === action.id
     );
@@ -55,6 +53,26 @@ const cartReducer = (state: any, action: any) => {
       updatedItems[existingCartItemIndex] = updatedItem;
     }
 
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
+  }
+  if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex(
+      (item: Product) => item.id === action.id
+    );
+    const existingItem = state.items[existingCartItemIndex];
+
+    let updatedItems;
+    let updatedTotalAmount;
+    if (existingItem) {
+      updatedItems = state.items.filter(
+        (item: Product) => item.id !== action.id
+      );
+      updatedTotalAmount =
+        state.totalAmount - existingItem.price * existingItem.amount;
+    }
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
@@ -77,6 +95,10 @@ const CartProvider = ({ children }: CartProviderProps) => {
     dispatchCartAction({ type: "ADD", item: item });
   };
 
+  const decreaseItemsAmountFromCartHandler = (id: number) => {
+    dispatchCartAction({ type: "DECREASE", id: id });
+  };
+
   const removeItemFromCartHandler = (id: number) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
@@ -85,7 +107,8 @@ const CartProvider = ({ children }: CartProviderProps) => {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
-    removeItem: removeItemFromCartHandler,
+    removeItem: decreaseItemsAmountFromCartHandler,
+    deleteItem: removeItemFromCartHandler,
   };
 
   return (

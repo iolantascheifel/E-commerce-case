@@ -10,9 +10,7 @@ const Modal = ({ children, onClose }: Props) => {
   return (
     <>
       <Background onClick={onClose} />
-      <ModalContent>
-        <div>{children}</div>
-      </ModalContent>
+      <ModalContent>{children}</ModalContent>
     </>
   );
 };
@@ -32,21 +30,19 @@ const Background = styled.div`
 const ModalContent = styled.div`
   position: fixed;
   top: 20vh;
-  left: 5%;
-  width: 90%;
+  left: 15%;
+  width: 70%;
+  min-height: 50%;
   background-color: white;
   padding: 1rem;
   border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
-
-  @media (min-width: 768px) {
-    .modal {
-      width: 40rem;
-      left: calc(50% - 20rem);
-    }
-  }
 
   @keyframes slide-down {
     from {

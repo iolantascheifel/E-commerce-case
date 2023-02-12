@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
+import GenericButton from "../UI/GenericButton";
 import Input from "../UI/Input";
 
 type Props = {
@@ -8,12 +9,11 @@ type Props = {
 
 const SingleProductAmountInput = ({ onAddToCart, id }: Props) => {
   const amountInputRef = useRef<HTMLInputElement>(null);
-  const submitHandler = (event: any) => {
+  const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // @ts-ignore
+    //@ts-ignore
     const enteredAmount = amountInputRef.current.value;
-
     const enteredAmountNumber = +enteredAmount;
 
     if (
@@ -40,7 +40,9 @@ const SingleProductAmountInput = ({ onAddToCart, id }: Props) => {
           defaultValue: "1",
         }}
       />
-      <button>+ Add</button>
+      <div style={{ padding: "10px 0" }}>
+        <GenericButton text="+ Add" styled="colored" />
+      </div>
     </form>
   );
 };

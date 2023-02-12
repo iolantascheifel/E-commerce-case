@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Product } from "../../Types";
 import SingleProduct from "./SingleProduct";
+import { Product } from "../Types";
+import styled from "styled-components";
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState();
+  const [searchProduct, setSearchProduct] = useState("");
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -41,19 +43,57 @@ const ProductList = () => {
     );
   }
 
-  const availableItems = products.map((product) => (
-    <SingleProduct
-      key={product.id}
-      id={product.id}
-      title={product.title}
-      price={product.price}
-      //@ts-ignore
-      images={product.images}
-      product={product}
-    />
-  ));
+  const availableItems = products
+    .filter((product) =>
+      product.title.toLowerCase().includes(searchProduct.toLowerCase())
+    )
+    .map((product) => (
+      <SingleProduct
+        key={product.id}
+        id={product.id}
+        title={product.title}
+        price={product.price}
+        images={product.images as string[]}
+      />
+    ));
 
-  return <div>{availableItems}</div>;
+  return (
+    <div>
+      <SearchInput
+        type="text"
+        onChange={(event) => {
+          setSearchProduct(event.target.value);
+        }}
+        placeholder="Search products..."
+      />
+      <ProductsContainer>{availableItems}</ProductsContainer>
+    </div>
+  );
 };
 
 export default ProductList;
+
+const ProductsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  width: 90vw;
+  padding-bottom: 50px;
+`;
+
+const SearchInput = styled.input`
+  margin-top: 130px;
+  margin-bottom: 50px;
+  padding: 10px;
+  width: 280px;
+  height: 40px;
+  border: 2px solid #ffc82f;
+  border-radius: 50px;
+  font-size: 16px;
+  outline: none;
+
+  ::placeholder {
+    font-family: "Poppins", sans-serif;
+  }
+`;
